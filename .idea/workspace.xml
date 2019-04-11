@@ -64,7 +64,7 @@
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="504">
-              <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+              <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -113,11 +113,6 @@
               <item name="slider" type="b2602c69:ProjectViewProjectNode" />
               <item name="slider" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="slider" type="b2602c69:ProjectViewProjectNode" />
-              <item name="slider" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -161,12 +156,12 @@
       <option name="presentableId" value="Default" />
       <updated>1555005209297</updated>
       <workItem from="1555005210807" duration="5294000" />
-      <workItem from="1555012230179" duration="2967000" />
+      <workItem from="1555012230179" duration="3037000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8261000" />
+    <option name="totallyTimeSpent" value="8331000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="436" width="1366" height="768" extended-state="6" />
@@ -236,7 +231,7 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
-          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+          <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
         </state>
       </provider>
     </entry>
