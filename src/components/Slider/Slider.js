@@ -1,16 +1,24 @@
-import React, {useState, useEffect, useRef, Children, cloneElement} from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  Children,
+  cloneElement
+} from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  position:relative;
-  width: 400vw;
+  position: relative;
+  width: ${props => props.i * 100}vw;
   height: 100vh;
   display: inline-block;
 `;
 
 export default function Slider({ children }) {
-  let number = 0;
-  const mapped = Children.map(children, (child) => cloneElement(child, {i: number++}));
+  let index = 0;
+  const childrenWithIndex = Children.map(children, child =>
+    cloneElement(child, { i: index++ })
+  );
 
   const [isClicking, setIsClicking] = useState(false);
   const [x, setX] = useState(0);
@@ -20,6 +28,7 @@ export default function Slider({ children }) {
   const ref = useRef();
 
   useEffect(() => {
+    console.log({ total, shift });
     ref.current.style.transform = `translateX(${total}px)`;
   }, [total]);
 
@@ -31,7 +40,7 @@ export default function Slider({ children }) {
   }
 
   function handleMove(clientX) {
-    if(isClicking) {
+    if (isClicking) {
       setX(clientX);
       setTotal(t => t - shift + x - grabX);
       setShift(x - grabX);
@@ -40,25 +49,31 @@ export default function Slider({ children }) {
 
   function handleUp(clientX) {
     ref.current.style.transition = `.5s all ease`;
-    if(Math.abs(shift) >= window.innerWidth/3.5){
-      if(shift>0) setTotal(t => t - shift + window.innerWidth);
+    if (Math.abs(shift) >= window.innerWidth / 3.5) {
+      if (shift > 0 && total > 0) setTotal(0);
+      else if (total < (-index + 1) * window.innerWidth)
+        setTotal((-index + 1) * window.innerWidth);
+      else if (shift > 0) setTotal(t => t - shift + window.innerWidth);
       else setTotal(t => t - shift - window.innerWidth);
     } else {
-      if(shift>0) setTotal(t => t - shift);
-      else setTotal(t => t - shift);
+      setTotal(t => t - shift);
     }
     setIsClicking(false);
     setShift(0);
   }
 
-  return <Container
+  return (
+    <Container
+      i={index}
       ref={ref}
-      onMouseMove={(e) => handleMove(e.clientX)}
-      onTouchMove={(e) => handleMove(e.changedTouches[0].pageX)}
-      onMouseDown={(e) =>handleDown(e.clientX)}
-      onTouchStart={(e) =>handleDown(e.changedTouches[0].pageX)}
-      onMouseUp={(e) =>handleUp(e.clientX)}
-      onTouchEnd={(e) =>handleUp(e.changedTouches[0].pageX)}>
-    {mapped}
-  </Container>;
+      onMouseMove={e => handleMove(e.clientX)}
+      onTouchMove={e => handleMove(e.changedTouches[0].pageX)}
+      onMouseDown={e => handleDown(e.clientX)}
+      onTouchStart={e => handleDown(e.changedTouches[0].pageX)}
+      onMouseUp={e => handleUp(e.clientX)}
+      onTouchEnd={e => handleUp(e.changedTouches[0].pageX)}
+    >
+      {childrenWithIndex}
+    </Container>
+  );
 }
