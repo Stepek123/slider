@@ -12,6 +12,10 @@ const InnerSlide = styled.div`
   width:100vw;
   height:100vh;
   user-select:none;
+  
+  img {
+    user-select: none;
+  }
 `;
 
 function Slide({ children, color, i }) {

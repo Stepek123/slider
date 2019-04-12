@@ -17,10 +17,9 @@ const Container = styled.div`
 
 function Slider({ children }) {
   let index = 0;
-  const childrenWithIndex = Children.map(children, child =>
-      cloneElement(child, { i: index++ })
-  );
+  const childrenWithIndex = Children.map(children, child => cloneElement(child, { i: index++ }));
 
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [isClicking, setIsClicking] = useState(false);
   const [x, setX] = useState(0);
   const [grabX, setGrabX] = useState(0);
@@ -34,6 +33,17 @@ function Slider({ children }) {
       ref.current.style.transform = ``;
     }
   }, [total]);
+
+  useEffect(() => {
+    function handler(ev) {
+      if(ev.key === "ArrowLeft") nextSlide();
+      else if(ev.key === "ArrowRight") previousSlide();
+    };
+    window.addEventListener("keydown", handler);
+    return () => {
+      window.removeEventListener("keydown", handler);
+    }
+  }, [previousSlide, nextSlide]);
 
   function handleDown(clientX) {
     ref.current.style.transition = ``;
@@ -50,14 +60,39 @@ function Slider({ children }) {
     }
   }
 
+  function nextSlide() {
+    if (currentSlide === 0) {
+      setTotal(0);
+      setCurrentSlide(0);
+    } else {
+      setTotal(t => t - shift + window.innerWidth);
+      setCurrentSlide(s => s+1);
+    }
+  }
+
+  function previousSlide() {
+    if (currentSlide === -index + 1) {
+      setTotal(0);
+      setCurrentSlide(0);
+    } else {
+      setTotal(t => t - shift - window.innerWidth);
+      setCurrentSlide(s => s-1);
+    }
+  }
+
   function handleUp() {
-    ref.current.style.transition = `.2s all ease`;
+    ref.current.style.transition = `.3s all ease-in-out`;
     if (Math.abs(shift) >= window.innerWidth / 3.5) {
-      if (shift > 0 && total > 0) setTotal(0);
-      else if (total < (-index + 1) * window.innerWidth)
+      if (shift > 0 && total > 0) {
+        setTotal(0);
+        setCurrentSlide(0);
+      }
+      else if (total < (-index + 1) * window.innerWidth) {
         setTotal((-index + 1) * window.innerWidth);
-      else if (shift > 0) setTotal(t => t - shift + window.innerWidth);
-      else setTotal(t => t - shift - window.innerWidth);
+        setCurrentSlide(index-1);
+      }
+      else if (shift > 0) nextSlide();
+      else previousSlide();
     } else {
       setTotal(t => t - shift);
     }
@@ -73,12 +108,14 @@ function Slider({ children }) {
       onTouchMove={e => handleMove(e.changedTouches[0].pageX)}
       onMouseDown={e => handleDown(e.clientX)}
       onTouchStart={e => handleDown(e.changedTouches[0].pageX)}
-      onMouseUp={e => handleUp(e.clientX)}
-      onTouchEnd={e => handleUp(e.changedTouches[0].pageX)}
+      onMouseUp={() => handleUp()}
+      onTouchEnd={() => handleUp()}
     >
       {childrenWithIndex}
     </Container>
   );
 }
+
+
 
 export default memo(Slider);

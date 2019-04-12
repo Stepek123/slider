@@ -16,7 +16,6 @@ function App() {
 
       <Slide color={"green"}>
         <img
-          draggable={false}
           src="https://randomuser.me/api/portraits/men/14.jpg"
           alt="random"
         />
