@@ -3,7 +3,8 @@ import React, {
   useEffect,
   useRef,
   Children,
-  cloneElement
+  cloneElement,
+    memo
 } from "react";
 import styled from "styled-components";
 
@@ -14,10 +15,10 @@ const Container = styled.div`
   display: inline-block;
 `;
 
-export default function Slider({ children }) {
+function Slider({ children }) {
   let index = 0;
   const childrenWithIndex = Children.map(children, child =>
-    cloneElement(child, { i: index++ })
+      cloneElement(child, { i: index++ })
   );
 
   const [isClicking, setIsClicking] = useState(false);
@@ -28,8 +29,10 @@ export default function Slider({ children }) {
   const ref = useRef();
 
   useEffect(() => {
-    console.log({ total, shift });
     ref.current.style.transform = `translateX(${total}px)`;
+    return () => {
+      ref.current.style.transform = ``;
+    }
   }, [total]);
 
   function handleDown(clientX) {
@@ -47,8 +50,8 @@ export default function Slider({ children }) {
     }
   }
 
-  function handleUp(clientX) {
-    ref.current.style.transition = `.5s all ease`;
+  function handleUp() {
+    ref.current.style.transition = `.2s all ease`;
     if (Math.abs(shift) >= window.innerWidth / 3.5) {
       if (shift > 0 && total > 0) setTotal(0);
       else if (total < (-index + 1) * window.innerWidth)
@@ -77,3 +80,5 @@ export default function Slider({ children }) {
     </Container>
   );
 }
+
+export default memo(Slider);

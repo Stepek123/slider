@@ -14,10 +14,12 @@ const InnerSlide = styled.div`
   user-select:none;
 `;
 
-export default function Slide({ children, color, i }) {
+function Slide({ children, color, i }) {
   return <InnerSlide
       i={i}
       color={color}>
     {children}
   </InnerSlide>;
 }
+
+export default Slide;

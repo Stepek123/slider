@@ -14,7 +14,7 @@ function App() {
         <Some />
       </Slide>
 
-      <Slide>
+      <Slide color={"green"}>
         <img
           draggable={false}
           src="https://randomuser.me/api/portraits/men/14.jpg"
@@ -22,7 +22,7 @@ function App() {
         />
       </Slide>
 
-      <Slide>
+      <Slide color={"purple"}>
         <img
           src="https://randomuser.me/api/portraits/men/16.jpg"
           alt="random"
