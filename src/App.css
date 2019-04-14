@@ -7,3 +7,7 @@ html, body {
 * {
   box-sizing: border-box;
 }
+
+.name{
+  background-color: red;
+}

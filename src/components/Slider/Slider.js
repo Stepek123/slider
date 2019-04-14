@@ -12,10 +12,9 @@ const Container = styled.div`
   position: relative;
   width: ${props => props.i * 100}vw;
   height: 100vh;
-  display: inline-block;
 `;
 
-function Slider({ children }) {
+function Slider({ children, settings, className }) {
   let index = 0;
   const childrenWithIndex = Children.map(children, child => cloneElement(child, { i: index++ }));
 
@@ -102,6 +101,7 @@ function Slider({ children }) {
 
   return (
     <Container
+      className={className}
       i={index}
       ref={ref}
       onMouseMove={e => handleMove(e.clientX)}

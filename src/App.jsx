@@ -1,11 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import "./App.css";
 import Some from "./components/Some";
-import { Slider, Slide } from "./components/Slider";
+import { Slider, Slide, Image } from "./components/Slider";
 
 function App() {
+  const [users] = useState(["Mateusz", "Patrycja"]);
   return (
-    <Slider>
+    <Slider settings={{
+        timingFunction: 'ease-in'
+    }}>
       <Slide color={"deepskyblue"}>
         <p>To jest pierwszy slajd</p>
       </Slide>
@@ -15,18 +18,20 @@ function App() {
       </Slide>
 
       <Slide color={"green"}>
-        <img
+        <Image
           src="https://randomuser.me/api/portraits/men/14.jpg"
           alt="random"
         />
       </Slide>
 
-      <Slide color={"purple"}>
-        <img
-          src="https://randomuser.me/api/portraits/men/16.jpg"
+      <Slide>
+        <Image
+          src="https://i.pinimg.com/originals/c6/22/46/c62246425d2c45d07ff2ad24ecd620cc.jpg"
           alt="random"
         />
       </Slide>
+
+      {users.map(user => (<Slide>{user}</Slide>))}
     </Slider>
   );
 }

@@ -4,16 +4,17 @@ import styled from "styled-components";
 const InnerSlide = styled.div`
   position:absolute;
   top:0;
-  left: ${props => props.i*100}vw;
+  left: ${({i}) => i*100}vw;
   display: flex;
   justify-content: center;
   align-items:center;
   background-color: ${({ color }) => color};
   width:100vw;
-  height:100vh;
+  height:100%;
   user-select:none;
   
-  img {
+  img:hover {
+    cursor: none;
     user-select: none;
   }
 `;
