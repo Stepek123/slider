@@ -6,11 +6,10 @@ function App() {
   const [users] = useState(["Mateusz", "Patrycja"]);
   return (
       <div style={{
-        width: "800px",
+        width: "900px",
         height: "50vh",
         border:"3px solid black",
-      }
-      }>
+      }}>
         <Slider>
           <Slide color={"deepskyblue"}>
             <p>To jest pierwszy slajd</p>

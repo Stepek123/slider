@@ -12,19 +12,15 @@ const InnerSlide = styled.div`
   width:100%;
   height:100%;
   user-select:none;
-  
-  img:hover {
-    cursor: none;
-    user-select: none;
-  }
 `;
 
 function Slide({ children, color, i }) {
-  return <InnerSlide
+  return (
+      <InnerSlide
       i={i}
       color={color}>
     {children}
-  </InnerSlide>;
+  </InnerSlide>);
 }
 
 export default Slide;

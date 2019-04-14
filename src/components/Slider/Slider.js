@@ -6,6 +6,7 @@ import React, {
   cloneElement,
     memo
 } from "react";
+import {useInterval} from "./useInterval";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -26,10 +27,20 @@ const DummyParent = styled.div`
   overflow:hidden;
 `;
 
-function Slider({ children, className }) {
+function Slider({ children, className, settings }) {
+
+  const s = {
+    ...{
+      timingFunction: "ease-in-out",
+      duration: .4
+    },
+    ...settings
+  };
+
   let index = 0;
   const childrenWithIndex = Children.map(children, child => cloneElement(child, { i: index++ }));
 
+  const [isRunning, setIsRunning] = useState(true);
   const [sliderWidth, setSliderWidth] = useState(0);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isClicking, setIsClicking] = useState(false);
@@ -52,6 +63,7 @@ function Slider({ children, className }) {
 
   useEffect(() => {
     function handler(ev) {
+      setIsRunning(false);
       if(ev.key === "ArrowLeft") nextSlide();
       else if(ev.key === "ArrowRight") previousSlide();
     }
@@ -62,6 +74,7 @@ function Slider({ children, className }) {
   }, [previousSlide, nextSlide]);
 
   function handleDown(clientX) {
+    setIsRunning(false);
     ref.current.style.transition = ``;
     setIsClicking(true);
     setX(clientX);
@@ -84,6 +97,7 @@ function Slider({ children, className }) {
       setTotal(t => t - shift + sliderWidth);
       setCurrentSlide(s => s+1);
     }
+    setIsRunning(true);
   }
 
   function previousSlide() {
@@ -94,11 +108,12 @@ function Slider({ children, className }) {
       setTotal(t => t - shift - sliderWidth);
       setCurrentSlide(s => s-1);
     }
+    setIsRunning(true);
   }
 
   function handleUp() {
-    ref.current.style.transition = `.3s all ease-in-out`;
-    if (Math.abs(shift) >= sliderWidth / 3.5) {
+    ref.current.style.transition = `${s.duration}s all ${s.timingFunction}`;
+    if (Math.abs(shift) >= sliderWidth / 4) {
       if (shift > 0 && total > 0) {
         setTotal(0);
         setCurrentSlide(0);
@@ -114,7 +129,16 @@ function Slider({ children, className }) {
     }
     setIsClicking(false);
     setShift(0);
+    setIsRunning(true);
   }
+
+  useInterval(() => {
+    ref.current.style.transition = `${s.duration}s all ${s.timingFunction}`;
+    previousSlide();
+    return () => {
+      ref.current.style.transition = ``;
+    };
+  }, isRunning ? 5000 : null);
 
   return (
       <DummyParent>
@@ -135,7 +159,5 @@ function Slider({ children, className }) {
 
   );
 }
-
-
 
 export default memo(Slider);
