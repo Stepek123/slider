@@ -4,12 +4,12 @@ import styled from "styled-components";
 const InnerSlide = styled.div`
   position:absolute;
   top:0;
-  left: ${({i}) => i*100}vw;
+  left: ${({i}) => i*100}%;
   display: flex;
   justify-content: center;
   align-items:center;
   background-color: ${({ color }) => color};
-  width:100vw;
+  width:100%;
   height:100%;
   user-select:none;
   
